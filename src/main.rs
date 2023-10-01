@@ -1,18 +1,35 @@
-fn main() {
-    let mut root = Node::new(0);
+use std::collections::HashSet;
+use rand::prelude::*;
 
-    for i in 1..10{
-        root.add(i);
-    } 
-    
-    let mut current_node = &root;
-    loop {
-        println!("{}", current_node.value);
-        match &current_node.right{
-            Some(right) => current_node = &right,
-            None => break
-        } 
+fn main() {
+}
+
+
+fn get_balanced_tree(size: usize) -> Node{
+    let mut memory = HashSet::<i64>::new();
+
+    let rnd_root = rand::thread_rng().gen_range(i64::MIN..i64::MAX + 1);
+    let mut root =  Node::new(rnd_root);
+
+    let mut count: usize = 1; 
+    while count < size{
+        let rnd = rand::thread_rng().gen_range(i64::MIN..i64::MAX + 1);
+        if memory.insert(rnd) {
+            root.add(rnd);
+            count += 1;
+        }
     }
+
+    root
+}
+
+fn get_skewed_tree(size: usize) -> Node{
+    let mut root = Node::new(1);
+
+    for i in 2..size{
+        root.add(i as i64);
+    }
+    root
 }
 
 struct Node {
