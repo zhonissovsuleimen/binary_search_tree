@@ -34,12 +34,12 @@ fn main() {
         //skewed
         timer = Instant::now();
         result = skewed.find(to_find);
-        println!("Skewed BST, RESULT - {}:\n {} {} found,\t took {} micros\n", result, to_find, if result {"is"} else {"is not"}, timer.elapsed().as_micros());
+        println!("Skewed BST: {} {} found,\t\t took {} nanoseconds", to_find, if result {"is"} else {"is not"}, timer.elapsed().as_nanos());
 
         //balanced
         timer = Instant::now();
         result = balanced.find(size);
-        println!("Balanced BST, RESULT - {}:\n {} {} found,\t took {} nanos\n", result, to_find, if result {"is"} else {"is not"}, timer.elapsed().as_nanos());
+        println!("Balanced BST: {} {} found,\t took {} nanoseconds", to_find, if result {"is"} else {"is not"}, timer.elapsed().as_nanos());
     });
 
     // Check if the thread creation was successful
@@ -74,6 +74,7 @@ fn get_balanced_tree(size: i64) -> Node{
 fn get_skewed_tree(size: i64) -> Node{
     let mut root = Box::new(Node::new(1));
 
+    //saving the reference to the latest node inserted, so inputting N numbers takes O(n) time. (isntead of O(n^2))
     let mut latest_node = &mut root;
     for i in 2..=size{
         let new_node = Box::new(Node::new(i));
